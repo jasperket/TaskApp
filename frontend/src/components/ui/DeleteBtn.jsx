@@ -14,10 +14,10 @@ export default function DeleteBtn({
       }}
       disabled={rowBusy}
       className={clsx(
-        "rounded-lg px-3 py-1 text-gray-700",
+        "rounded-lg px-3 py-1 text-white",
         {
-          "cursor-not-allowed bg-red-200": rowBusy,
-          "cursor-pointer bg-red-100 hover:bg-red-200": !rowBusy,
+          "cursor-not-allowed bg-red-700": rowBusy,
+          "cursor-pointer bg-red-600 hover:bg-red-700": !rowBusy,
         },
         className,
       )}
