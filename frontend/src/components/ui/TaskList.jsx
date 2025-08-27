@@ -51,7 +51,7 @@ export default function TaskList({ tasks, loading, setError, loadTasks }) {
               {/* Done checkbox */}
               <input
                 type="checkbox"
-                className="size-5 accent-blue-600"
+                className={`size-5 accent-blue-600 ${rowBusy || isEditing ? "cursor-not-allowed" : "cursor-pointer"}`}
                 checked={task.isDone}
                 onChange={() => toggleDone(task)}
                 disabled={rowBusy || isEditing}
