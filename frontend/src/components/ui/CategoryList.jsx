@@ -20,7 +20,11 @@ export default function CategoryList({
     cancelEdit,
   } = useEditCategory(setError, loadCategories, loadTasks);
 
-  const { deleteBusyId, remove } = useDeleteCategory(setError, loadCategories);
+  const { deleteBusyId, remove } = useDeleteCategory(
+    setError,
+    loadCategories,
+    loadTasks,
+  );
 
   return (
     <ul className="relative divide-y divide-gray-100 rounded-2xl bg-white shadow">
