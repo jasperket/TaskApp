@@ -4,30 +4,52 @@ import Header from "./components/layout/Header";
 import CreateTask from "./components/ui/CreateTask";
 import TaskList from "./components/ui/TaskList";
 import { delay } from "./utils";
-import AddCategory from "./components/ui/AddCategory";
+import CreateCategory from "./components/ui/CreateCategory";
+import CategoryList from "./components/ui/CategoryList";
 
 export default function App() {
   // ----- state for tasks list -----
   const [tasks, setTasks] = useState([]);
   const [tasksLoading, setTasksLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [tasksError, setTasksError] = useState("");
+
+  // ----- state for categories list -----
+  const [categories, setCategories] = useState([]);
+  const [categoriesLoading, setCategoriesLoading] = useState(true);
+  const [categoriesError, setCategoriesError] = useState("");
 
   // Load tasks from API
   async function loadTasks() {
     try {
-      setError("");
+      setTasksError("");
       setTasksLoading(true);
       await delay(1000);
       const data = await api.getTasks();
       setTasks(data);
     } catch (err) {
-      setError(err.message || "Failed to load tasks");
+      setTasksError(err.message || "Failed to load tasks");
     } finally {
       setTasksLoading(false);
     }
   }
 
+  // Load categories from API
+  async function loadCategories() {
+    try {
+      setCategoriesError("");
+      setCategoriesLoading(true);
+      await delay(1000);
+      const data = await api.getCategories();
+      setCategories(data);
+    } catch (err) {
+      setCategoriesError(err.message || "Failed to load categories");
+    } finally {
+      setCategoriesLoading(false);
+    }
+  }
+
   useEffect(() => {
+    loadCategories();
     loadTasks();
   }, []);
 
@@ -38,16 +60,26 @@ export default function App() {
 
         <h2 className="text-xl font-bold">Categories</h2>
         {/* Add Category Form */}
-        <AddCategory setError={setError} loadTasks={loadTasks} />
+        <CreateCategory setError={setCategories} loadTasks={loadTasks} />
+
+        {/* Category Errors / Loading */}
+        {categoriesError && (
+          <div className="bg-red-50 border border-red-200 text-red-700 rounded-xl p-3">
+            {categoriesError}
+          </div>
+        )}
+        {categoriesLoading && <div className="text-gray-600">Loading…</div>}
+
+        <CategoryList categories={categories} loading={categoriesLoading} setError={setCategoriesError} loadCategories={loadCategories} />
 
         <h2 className="text-xl font-bold">Tasks</h2>
         {/* Create Form */}
-        <CreateTask setError={setError} loadTasks={loadTasks} />
+        <CreateTask setError={setTasksError} loadTasks={loadTasks} />
 
-        {/* Errors / Loading */}
-        {error && (
+        {/* Task Errors / Loading */}
+        {tasksError && (
           <div className="bg-red-50 border border-red-200 text-red-700 rounded-xl p-3">
-            {error}
+            {tasksError}
           </div>
         )}
         {tasksLoading && <div className="text-gray-600">Loading…</div>}
@@ -56,7 +88,7 @@ export default function App() {
         <TaskList
           tasks={tasks}
           loading={tasksLoading}
-          setError={setError}
+          setError={setTasksError}
           loadTasks={loadTasks}
         />
       </main>
