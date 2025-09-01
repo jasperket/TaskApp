@@ -10,7 +10,7 @@ export default function useCreateCategory(setError, loadTasks) {
   async function handleAdd(e) {
     e.preventDefault();
     if (!name.trim()) {
-      setError("Title is required.");
+      setError("Name is required.");
       return;
     }
 
