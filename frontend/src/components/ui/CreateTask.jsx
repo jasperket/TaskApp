@@ -1,7 +1,7 @@
 import useCreateTask from "../../hooks/useCreateTask";
 
 export default function CreateTask({ setError, loadTasks, categories }) {
-  const { title, dueDate, saving, handleAdd, setTitle, setDueDate, estimatedHours, setEstimatedHours, categoryId, setCategoryId } =
+  const { title, dueDate, saving, handleAdd, setTitle, setDueDate, estimatedHours, setEstimateHours, categoryId, setCategoryId } =
     useCreateTask(setError, loadTasks);
   return (
     <form
@@ -53,7 +53,7 @@ export default function CreateTask({ setError, loadTasks, categories }) {
             type="number"
             className="rounded-xl border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500 w-full"
             value={estimatedHours}
-            onChange={(e) => setEstimatedHours(e.target.value)}
+            onChange={(e) => setEstimateHours(e.target.value)}
           />
         </div>
       </div>
