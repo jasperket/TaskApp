@@ -70,7 +70,7 @@ export default function App() {
             {categoriesError}
           </div>
         )}
-        {categoriesLoading && categories.length === 0 ? (
+        {categoriesLoading || categories.length === 0 ? (
           <div className="text-gray-600">Loading…</div>
         ) : (
           <CategoryList
@@ -78,6 +78,7 @@ export default function App() {
             loading={categoriesLoading}
             setError={setCategoriesError}
             loadCategories={loadCategories}
+            loadTasks={loadTasks}
           />
         )}
 
@@ -95,16 +96,17 @@ export default function App() {
             {tasksError}
           </div>
         )}
-        {tasksLoading && <div className="text-gray-600">Loading…</div>}
-
-        {/* Task List */}
-        <TaskList
-          tasks={tasks}
-          loading={tasksLoading}
-          setError={setTasksError}
-          loadTasks={loadTasks}
-          categories={categories}
-        />
+        {tasksLoading || tasks.length === 0 ? (
+          <div className="text-gray-600">Loading…</div>
+        ) : (
+          <TaskList
+            tasks={tasks}
+            loading={tasksLoading}
+            setError={setTasksError}
+            loadTasks={loadTasks}
+            categories={categories}
+          />
+        )}
       </main>
     </div>
   );

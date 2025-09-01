@@ -8,6 +8,7 @@ export default function CategoryList({
   loading,
   setError,
   loadCategories,
+  loadTasks,
 }) {
   const {
     editId,
@@ -17,7 +18,7 @@ export default function CategoryList({
     startEdit,
     saveEdit,
     cancelEdit,
-  } = useEditCategory(setError, loadCategories);
+  } = useEditCategory(setError, loadCategories, loadTasks);
 
   const { deleteBusyId, remove } = useDeleteCategory(setError, loadCategories);
 

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { api } from "../api";
 import { delay } from "../utils";
 
-export default function useEditCategory(setError, loadCategories) {
+export default function useEditCategory(setError, loadCategories, loadTasks) {
   const [editId, setEditId] = useState(null);
   const [editName, setEditName] = useState("");
   const [updating, setUpdating] = useState(false);
@@ -36,6 +36,7 @@ export default function useEditCategory(setError, loadCategories) {
       await delay(1000);
       cancelEdit();
       await loadCategories();
+      await loadTasks();
     } catch (err) {
       setError(err.message || "Failed to update category");
     } finally {
