@@ -34,6 +34,7 @@ export default function App() {
     <div className="min-h-screen bg-gray-100 text-gray-900">
       <Header />
       <main className="max-w-3xl mx-auto p-6 space-y-6">
+        
         {/* Create Form */}
         <CreateTask setError={setError} loadTasks={loadTasks} />
 

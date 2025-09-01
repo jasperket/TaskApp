@@ -18,9 +18,17 @@ async function http(path, options = {}) {
 export const api = {
   getTasks: () => http("/api/Tasks"),
   getTask: (id) => http(`/api/Tasks/${id}`),
+  getTasksByCategory: (id) => http(`/api/Tasks/${id}/fromCategory`),
   createTask: (task) =>
     http("/api/Tasks", { method: "POST", body: JSON.stringify(task) }),
   updateTask: (id, task) =>
     http(`/api/Tasks/${id}`, { method: "PUT", body: JSON.stringify(task) }),
   deleteTask: (id) => http(`/api/Tasks/${id}`, { method: "DELETE" }),
+  getCategories: () => http("/api/Categories"),
+  getCategory: (id) => http(`/api/Categories/${id}`),
+  createCategory: (category) =>
+    http("/api/Categories", { method: "POST", body: JSON.stringify(category) }),
+  updateCategory: (id, category) =>
+    http(`/api/Categories/${id}`, { method: "PUT", body: JSON.stringify(category) }),
+  deleteCategory: (id) => http(`/api/Categories/${id}`, { method: "DELETE" }),
 };
