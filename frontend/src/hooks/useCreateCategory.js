@@ -18,7 +18,6 @@ export default function useCreateCategory(setError, loadTasks) {
       setSaving(true);
       setError("");
 
-      // Send null if no date picked; the API accepts either ISO date or null
       await api.createCategory({
         name: name.trim(),
       });
