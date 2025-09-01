@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TaskApi.Data;
+using TaskApi.Data.DTOs;
 using TaskApi.Models;
 
 namespace TaskApi.Controllers
@@ -46,17 +47,31 @@ namespace TaskApi.Controllers
 
         // CREATE: POST /api/tasks
         [HttpPost]
-        public async Task<ActionResult<TaskItem>> Create(TaskItem dto)
+        public async Task<ActionResult<TaskItem>> Create(CreateTaskDTO dto)
         {
             // Basic validation
             if (string.IsNullOrWhiteSpace(dto.Title))
                 return BadRequest("Title is required.");
 
-            _db.Tasks.Add(dto);
+            // Validate category
+            var category = await _db.Categories.FindAsync(dto.CategoryId);
+            if (category == null) return BadRequest("Category not found.");
+
+            // Create task
+            var task = new TaskItem
+            {
+                Title = dto.Title,
+                IsDone = dto.IsDone,
+                DueDate = dto.DueDate,
+                EstimateHours = dto.EstimateHours,
+                CategoryId = dto.CategoryId
+            };
+
+            _db.Tasks.Add(task);
             await _db.SaveChangesAsync();
 
             // Returns 201 with Location header pointing to GET by id
-            return CreatedAtAction(nameof(GetById), new { id = dto.Id }, dto);
+            return CreatedAtAction(nameof(GetById), new { id = task.Id }, task);
         }
 
         // UPDATE: PUT /api/tasks/{id}
@@ -64,6 +79,7 @@ namespace TaskApi.Controllers
         public async Task<IActionResult> Update(int id, TaskItem dto)
         {
             if (id != dto.Id) return BadRequest("ID mismatch.");
+
 
             var exists = await _db.Tasks.AnyAsync(t => t.Id == id);
             if (!exists) return NotFound();
