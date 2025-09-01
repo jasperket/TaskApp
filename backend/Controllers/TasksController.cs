@@ -33,6 +33,17 @@ namespace TaskApi.Controllers
             return Ok(item);
         }
 
+        // READ TASKS FROM CATEGORY: GET /api/Categories/{id}/tasks
+        [HttpGet("{id:int}/tasks")]
+        public async Task<ActionResult<IEnumerable<TaskItem>>> GetTasksByCategory(int id)
+        {
+            var category = await _db.Categories.FindAsync(id);
+            if (category == null) return NotFound();
+
+            var tasks = await _db.Tasks.Where(t => t.CategoryId == id).ToListAsync();
+            return Ok(tasks);
+        }
+
         // CREATE: POST /api/tasks
         [HttpPost]
         public async Task<ActionResult<TaskItem>> Create(TaskItem dto)
