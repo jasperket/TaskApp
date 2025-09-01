@@ -1,8 +1,18 @@
 import useCreateTask from "../../hooks/useCreateTask";
 
 export default function CreateTask({ setError, loadTasks, categories }) {
-  const { title, dueDate, saving, handleAdd, setTitle, setDueDate, estimatedHours, setEstimateHours, categoryId, setCategoryId } =
-    useCreateTask(setError, loadTasks);
+  const {
+    title,
+    dueDate,
+    saving,
+    handleAdd,
+    setTitle,
+    setDueDate,
+    estimateHours,
+    setEstimateHours,
+    categoryId,
+    setCategoryId,
+  } = useCreateTask(setError, loadTasks);
   return (
     <form
       onSubmit={handleAdd}
@@ -21,7 +31,7 @@ export default function CreateTask({ setError, loadTasks, categories }) {
         <div className="flex-1">
           <label className="mb-1 block text-sm text-gray-600">Category *</label>
           <select
-            className="rounded-xl border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500 w-full"
+            className="w-full rounded-xl border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
             value={categoryId}
             onChange={(e) => setCategoryId(e.target.value)}
           >
@@ -42,17 +52,19 @@ export default function CreateTask({ setError, loadTasks, categories }) {
           <label className="mb-1 block text-sm text-gray-600">Due date</label>
           <input
             type="date"
-            className="rounded-xl border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500 w-full"
+            className="w-full rounded-xl border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
             value={dueDate}
             onChange={(e) => setDueDate(e.target.value)}
           />
         </div>
         <div className="flex-1">
-          <label className="mb-1 block text-sm text-gray-600">Estimated hours</label>
+          <label className="mb-1 block text-sm text-gray-600">
+            Estimated hours
+          </label>
           <input
             type="number"
-            className="rounded-xl border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500 w-full"
-            value={estimatedHours}
+            className="w-full rounded-xl border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
+            value={estimateHours}
             onChange={(e) => setEstimateHours(e.target.value)}
           />
         </div>
