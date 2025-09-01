@@ -2,7 +2,13 @@ import useEditTask from "../../hooks/useEditTask";
 import useDeleteTask from "../../hooks/useDeleteTask";
 import DeleteBtn from "./DeleteBtn";
 
-export default function TaskList({ tasks, loading, setError, loadTasks, categories }) {
+export default function TaskList({
+  tasks,
+  loading,
+  setError,
+  loadTasks,
+  categories,
+}) {
   const {
     editId,
     toggleBusyId,
@@ -11,6 +17,10 @@ export default function TaskList({ tasks, loading, setError, loadTasks, categori
     setEditTitle,
     editDueDate,
     setEditDueDate,
+    editCategoryId,
+    setEditCategoryId,
+    editEstimateHours,
+    setEditEstimateHours,
     updating,
     startEdit,
     saveEdit,
@@ -90,11 +100,34 @@ export default function TaskList({ tasks, loading, setError, loadTasks, categori
                       placeholder="Title"
                       disabled={updating}
                     />
+                    <select
+                      name="category"
+                      id="category"
+                      className="flex-1 rounded-xl border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
+                      value={editCategoryId}
+                      onChange={(e) => setEditCategoryId(e.target.value)}
+                    >
+                      <option value="">Select a category</option>
+                      {/* Category Loading */}
+                      {categories.length === 0 && <option>Loading…</option>}
+                      {categories.map((category) => (
+                        <option key={category.id} value={category.id}>
+                          {category.name}
+                        </option>
+                      ))}
+                    </select>
                     <input
                       type="date"
-                      className="rounded-xl border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
+                      className="flex-1 rounded-xl border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
                       value={editDueDate}
                       onChange={(e) => setEditDueDate(e.target.value)}
+                      disabled={updating}
+                    />
+                    <input
+                      type="number"
+                      className="flex-1 rounded-xl border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
+                      value={editEstimateHours}
+                      onChange={(e) => setEditEstimateHours(e.target.value)}
                       disabled={updating}
                     />
                   </div>
@@ -103,7 +136,7 @@ export default function TaskList({ tasks, loading, setError, loadTasks, categori
               {/* Right-side actions */}
               {!isEditing ? (
                 <div className="flex items-center gap-2">
-                  <h3 className=" font-semibold">{category?.name}</h3>
+                  <h3 className="font-semibold">{category?.name}</h3>
                   <button
                     onClick={() => startEdit(task)}
                     disabled={rowBusy}

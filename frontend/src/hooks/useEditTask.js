@@ -6,6 +6,8 @@ export default function useEditTask(setError, loadTasks) {
   const [editId, setEditId] = useState(null);
   const [editTitle, setEditTitle] = useState("");
   const [editDueDate, setEditDueDate] = useState(""); // YYYY-MM-DD
+  const [editCategoryId, setEditCategoryId] = useState(0);
+  const [editEstimateHours, setEditEstimateHours] = useState(0);
   const [updating, setUpdating] = useState(false);
   const [toggleBusyId, setToggleBusyId] = useState(null); // id currently toggling
 
@@ -26,12 +28,14 @@ export default function useEditTask(setError, loadTasks) {
   function startEdit(task) {
     setEditId(task.id);
     setEditTitle(task.title ?? "");
+    setEditCategoryId(task.categoryId);
+    setEditEstimateHours(task.estimateHours);
     // normalize due date to YYYY-MM-DD for <input type="date">
     const d = task.dueDate ? new Date(task.dueDate) : null;
     const ymd = d
       ? `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(
           2,
-          "0"
+          "0",
         )}-${String(d.getDate()).padStart(2, "0")}`
       : "";
     setEditDueDate(ymd);
@@ -49,6 +53,16 @@ export default function useEditTask(setError, loadTasks) {
       return;
     }
 
+    if (!editCategoryId) {
+      setError("Category is required.");
+      return;
+    }
+
+    if (editEstimateHours < 0) {
+      setError("Estimated hours must be greater than or equal to 0.");
+      return;
+    }
+
     try {
       setUpdating(true);
       setError("");
@@ -58,6 +72,8 @@ export default function useEditTask(setError, loadTasks) {
         title: editTitle.trim(),
         // send null if empty string so API accepts it
         dueDate: editDueDate ? editDueDate : null,
+        categoryId: editCategoryId,
+        estimateHours: editEstimateHours,
       };
 
       await api.updateTask(originalTask.id, payload);
@@ -79,6 +95,10 @@ export default function useEditTask(setError, loadTasks) {
     setEditTitle,
     editDueDate,
     setEditDueDate,
+    editCategoryId,
+    setEditCategoryId,
+    editEstimateHours,
+    setEditEstimateHours,
     updating,
     startEdit,
     saveEdit,
