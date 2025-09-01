@@ -74,7 +74,10 @@ export default function CategoryList({ categories, loading, setError, loadCatego
                   </button>
                   <button
                     onClick={() => {
-                        if (confirm(`Delete "${category.name}"?`)) remove(category.id);
+                        if (confirm(`Delete "${category.name}"?`)) {
+                          console.log(category.id);
+                          remove(category.id);
+                        };
                     }}
                     disabled={rowBusy}
                     className={clsx(

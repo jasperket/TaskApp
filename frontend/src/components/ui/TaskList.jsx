@@ -2,7 +2,7 @@ import useEditTask from "../../hooks/useEditTask";
 import useDeleteTask from "../../hooks/useDeleteTask";
 import DeleteBtn from "./DeleteBtn";
 
-export default function TaskList({ tasks, loading, setError, loadTasks }) {
+export default function TaskList({ tasks, loading, setError, loadTasks, categories }) {
   const {
     editId,
     toggleBusyId,
@@ -44,7 +44,7 @@ export default function TaskList({ tasks, loading, setError, loadTasks }) {
       {(sorted ?? tasks).map((task) => {
         const isEditing = editId === task.id;
         const rowBusy = toggleBusyId === task.id || deleteBusyId === task.id;
-
+        const category = categories.find((c) => c.id === task.categoryId);
         return (
           <>
             <li key={task.id} className="relative flex items-center gap-3 p-4">
@@ -74,7 +74,7 @@ export default function TaskList({ tasks, loading, setError, loadTasks }) {
                           Due: {new Date(task.dueDate).toLocaleDateString()}
                         </div>
                       )}
-                      {task.estimatedHours && (
+                      {task.estimateHours > 0 && (
                         <div className="text-sm text-gray-500">
                           Estimated: {task.estimateHours} hours
                         </div>
@@ -103,6 +103,7 @@ export default function TaskList({ tasks, loading, setError, loadTasks }) {
               {/* Right-side actions */}
               {!isEditing ? (
                 <div className="flex items-center gap-2">
+                  <h3 className=" font-semibold">{category?.name}</h3>
                   <button
                     onClick={() => startEdit(task)}
                     disabled={rowBusy}

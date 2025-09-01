@@ -82,7 +82,7 @@ export default function App() {
             {tasksError}
           </div>
         )}
-        {tasksLoading && <div className="text-gray-600">Loading…</div>}
+        {tasksLoading || categoriesLoading && <div className="text-gray-600">Loading…</div>}
 
         {/* Task List */}
         <TaskList
@@ -90,6 +90,7 @@ export default function App() {
           loading={tasksLoading}
           setError={setTasksError}
           loadTasks={loadTasks}
+          categories={categories}
         />
       </main>
     </div>
