@@ -1,7 +1,7 @@
 import useCreateCategory from "../../hooks/useCreateCategory";
 
-export default function AddCategory({setError, loadTasks}) {
-    const {name, saving, handleAdd, setName} = useCreateCategory(setError, loadTasks);
+export default function CreateCategory({setError, loadCategories}) {
+    const {name, saving, handleAdd, setName} = useCreateCategory(setError, loadCategories);
   return (
     <form
       onSubmit={handleAdd}
@@ -11,7 +11,7 @@ export default function AddCategory({setError, loadTasks}) {
         <label className="mb-1 block text-sm text-gray-600">Name *</label>
         <input
           className="w-full rounded-xl border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Learn CRUD"
+          placeholder="Work"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />

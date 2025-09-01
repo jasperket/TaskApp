@@ -2,7 +2,7 @@ import { useState } from "react";
 import { api } from "../api";
 import { delay } from "../utils";
 
-export default function useCreateCategory(setError, loadTasks) {
+export default function useCreateCategory(setError, loadCategories) {
   const [name, setName] = useState("");
   const [saving, setSaving] = useState(false); // shows button loading state
 
@@ -25,7 +25,7 @@ export default function useCreateCategory(setError, loadTasks) {
       // reset form + refresh list
       await delay(1000);
       setName("");
-      await loadTasks();
+      await loadCategories();
     } catch (err) {
       setError(err.message || "Failed to create task");
     } finally {
