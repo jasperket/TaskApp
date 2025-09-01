@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace TaskApi.Models
 {
     // POCO = Plain Old CLR Object. EF Core maps this to a DB table.
@@ -7,5 +9,11 @@ namespace TaskApi.Models
         public string Title { get; set; } = "";     // Required (we'll also validate in the controller)
         public bool IsDone { get; set; } = false;   // Simple status flag
         public DateTime? DueDate { get; set; }      // Nullable → optional due date
+
+        public int EstimateHours { get; set; } = 0;
+
+        public int CategoryId { get; set; } = 0;
+
+        public Category Category { get; set; } = null!;
     }
 }
