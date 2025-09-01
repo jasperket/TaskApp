@@ -68,11 +68,18 @@ export default function TaskList({ tasks, loading, setError, loadTasks }) {
                     >
                       {task.title}
                     </div>
-                    {task.dueDate && (
-                      <div className="text-sm text-gray-500">
-                        Due: {new Date(task.dueDate).toLocaleDateString()}
-                      </div>
-                    )}
+                    <div className="flex gap-4">
+                      {task.dueDate && (
+                        <div className="text-sm text-gray-500">
+                          Due: {new Date(task.dueDate).toLocaleDateString()}
+                        </div>
+                      )}
+                      {task.estimatedHours && (
+                        <div className="text-sm text-gray-500">
+                          Estimated: {task.estimateHours} hours
+                        </div>
+                      )}
+                    </div>
                   </>
                 ) : (
                   <div className="flex flex-wrap gap-3">

@@ -5,7 +5,7 @@ import { delay } from "../utils";
 export default function useCreateTask(setError, loadTasks) {
   const [title, setTitle] = useState("");
   const [dueDate, setDueDate] = useState(""); // YYYY-MM-DD from <input type="date">
-  const [estimatedHours, setEstimatedHours] = useState(0);
+  const [estimateHours, setEstimateHours] = useState(0);
   const [categoryId, setCategoryId] = useState(0);
   const [saving, setSaving] = useState(false); // shows button loading state
 
@@ -22,7 +22,7 @@ export default function useCreateTask(setError, loadTasks) {
       return;
     }
 
-    if(estimatedHours < 0) {
+    if(estimateHours < 0) {
       setError("Estimated hours must be a positive number.");
       return;
     }
@@ -36,7 +36,7 @@ export default function useCreateTask(setError, loadTasks) {
         title: title.trim(),
         isDone: false,
         dueDate: dueDate || null,
-        estimatedHours: estimatedHours,
+        estimateHours: estimateHours,
         categoryId: categoryId,
       });
 
@@ -44,7 +44,7 @@ export default function useCreateTask(setError, loadTasks) {
       await delay(1000);
       setTitle("");
       setDueDate("");
-      setEstimatedHours(0);
+      setEstimateHours(0);
       setCategoryId(0);
       await loadTasks();
     } catch (err) {
@@ -54,5 +54,5 @@ export default function useCreateTask(setError, loadTasks) {
     }
   }
 
-  return { title, dueDate, saving, handleAdd, setTitle, setDueDate, estimatedHours, setEstimatedHours, categoryId, setCategoryId };
+  return { title, dueDate, saving, handleAdd, setTitle, setDueDate, estimateHours, setEstimateHours, categoryId, setCategoryId };
 }
