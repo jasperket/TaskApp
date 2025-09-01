@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
@@ -11,6 +12,7 @@ namespace TaskApi.Models
         public bool IsDone { get; set; } = false;   // Simple status flag
         public DateTime? DueDate { get; set; }      // Nullable → optional due date
 
+        [Range(0, int.MaxValue)]
         public int EstimateHours { get; set; } = 0;
 
         public int CategoryId { get; set; }
