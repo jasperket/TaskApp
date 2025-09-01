@@ -74,7 +74,7 @@ export default function App() {
 
         <h2 className="text-xl font-bold">Tasks</h2>
         {/* Create Form */}
-        <CreateTask setError={setTasksError} loadTasks={loadTasks} />
+        <CreateTask setError={setTasksError} loadTasks={loadTasks} categories={categories} />
 
         {/* Task Errors / Loading */}
         {tasksError && (
