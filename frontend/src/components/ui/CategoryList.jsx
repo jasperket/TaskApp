@@ -85,7 +85,6 @@ export default function CategoryList({
                     <button
                       onClick={() => {
                         if (confirm(`Delete "${category.name}"?`)) {
-                          console.log(category.id);
                           remove(category.id);
                         }
                       }}
