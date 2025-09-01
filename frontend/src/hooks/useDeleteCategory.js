@@ -9,10 +9,10 @@ export default function useDeleteCategory(setError, loadCategories) {
       setError("");
       setDeleteBusyId(id);
       await delay(1000);
-      await api.deleteTask(id);
+      await api.deleteCategory(id);
       await loadCategories();
     } catch (err) {
-      setError(err.message || "Failed to delete task");
+      setError(err.message || "Failed to delete category");
     } finally {
       setDeleteBusyId(null);
     }
