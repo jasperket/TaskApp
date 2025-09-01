@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace TaskApi.Models
 {
@@ -14,6 +15,7 @@ namespace TaskApi.Models
 
         public int CategoryId { get; set; } = 0;
 
+        [JsonIgnore]
         public Category Category { get; set; } = null!;
     }
 }

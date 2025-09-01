@@ -34,8 +34,8 @@ namespace TaskApi.Controllers
             return Ok(item);
         }
 
-        // READ TASKS FROM CATEGORY: GET /api/Categories/{id}/tasks
-        [HttpGet("{id:int}/tasks")]
+        // READ TASKS FROM CATEGORY: GET /api/Tasks/{id}/fromCategory
+        [HttpGet("{id:int}/fromCategory")]
         public async Task<ActionResult<IEnumerable<TaskItem>>> GetTasksByCategory(int id)
         {
             var category = await _db.Categories.FindAsync(id);
