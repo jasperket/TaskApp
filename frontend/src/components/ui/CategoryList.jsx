@@ -1,84 +1,58 @@
-import useEditTask from "../../hooks/useEditTask";
-import useDeleteTask from "../../hooks/useDeleteTask";
+import useDeleteCategory from "../../hooks/useDeleteCategory";
+import useEditCategory from "../../hooks/useEditCategory";
 import DeleteBtn from "./DeleteBtn";
+import clsx from "clsx";
 
-export default function CategoryList({ categories, loading, setError, loadTasks }) {
+export default function CategoryList({ categories, loading, setError, loadCategories }) {
   const {
     editId,
-    toggleBusyId,
-    toggleDone,
-    editTitle,
-    setEditTitle,
-    editDueDate,
-    setEditDueDate,
+    editName,
+    setEditName,
     updating,
     startEdit,
     saveEdit,
     cancelEdit,
-  } = useEditTask(setError, loadTasks);
+  } = useEditCategory(setError, loadCategories);
 
-  const { deleteBusyId, remove } = useDeleteTask(setError, loadTasks);
+  const { deleteBusyId, remove } = useDeleteCategory(setError, loadCategories);
 
   return (
     <ul className="relative divide-y divide-gray-100 rounded-2xl bg-white shadow">
       {/* Display if no tasks */}
       {categories.length === 0 && !loading && (
         <li className="p-8 text-center text-gray-500">
-          <div className="text-lg font-medium">No tasks yet</div>
+          <div className="text-lg font-medium">No categories yet</div>
           <div className="text-sm">
-            Add your first task using the form above.
+            Add your first category using the form above.
           </div>
         </li>
       )}
 
       {/* Display each task */}
-      {categories.map((task) => {
-        const isEditing = editId === task.id;
-        const rowBusy = toggleBusyId === task.id || deleteBusyId === task.id;
+      {categories.map((category) => {
+        const isEditing = editId === category.id;
+        const rowBusy = deleteBusyId === category.id;
 
         return (
           <>
-            <li key={task.id} className="relative flex items-center gap-3 p-4">
-              {/* Done checkbox */}
-              <input
-                type="checkbox"
-                className={`size-5 accent-blue-600 ${rowBusy || isEditing ? "cursor-not-allowed" : "cursor-pointer"}`}
-                checked={task.isDone}
-                onChange={() => toggleDone(task)}
-                disabled={rowBusy || isEditing}
-                aria-label={`Toggle ${task.title}`}
-              />
+            <li key={category.id} className="relative flex items-center gap-3 p-4">
               {/* Content area */}
               <div className="flex-1">
                 {!isEditing ? (
                   <>
                     <div
-                      className={`font-medium ${
-                        task.isDone ? "text-gray-400 line-through" : ""
-                      }`}
+                      className={`font-medium`}
                     >
-                      {task.title}
+                      {category.name}
                     </div>
-                    {task.dueDate && (
-                      <div className="text-sm text-gray-500">
-                        Due: {new Date(task.dueDate).toLocaleDateString()}
-                      </div>
-                    )}
                   </>
                 ) : (
                   <div className="flex flex-wrap gap-3">
                     <input
                       className="min-w-56 flex-1 rounded-xl border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
-                      value={editTitle}
-                      onChange={(e) => setEditTitle(e.target.value)}
+                      value={editName}
+                      onChange={(e) => setEditName(e.target.value)}
                       placeholder="Title"
-                      disabled={updating}
-                    />
-                    <input
-                      type="date"
-                      className="rounded-xl border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
-                      value={editDueDate}
-                      onChange={(e) => setEditDueDate(e.target.value)}
                       disabled={updating}
                     />
                   </div>
@@ -88,7 +62,7 @@ export default function CategoryList({ categories, loading, setError, loadTasks 
               {!isEditing ? (
                 <div className="flex items-center gap-2">
                   <button
-                    onClick={() => startEdit(task)}
+                    onClick={() => startEdit(category)}
                     disabled={rowBusy}
                     className={`cursor-pointer rounded-lg px-3 py-1 text-gray-700 ${
                       rowBusy
@@ -98,19 +72,27 @@ export default function CategoryList({ categories, loading, setError, loadTasks 
                   >
                     Edit
                   </button>
-                  <DeleteBtn
-                    task={task}
-                    rowBusy={rowBusy}
-                    setError={setError}
-                    loadTasks={loadTasks}
-                    deleteBusyId={deleteBusyId}
-                    remove={remove}
-                  />
+                  <button
+                    onClick={() => {
+                        if (confirm(`Delete "${category.name}"?`)) remove(category.id);
+                    }}
+                    disabled={rowBusy}
+                    className={clsx(
+                        "rounded-lg px-3 py-1 text-white",
+                        {
+                        "cursor-not-allowed bg-red-700": rowBusy,
+                        "cursor-pointer bg-red-600 hover:bg-red-700": !rowBusy,
+                        },
+                    )}
+                    aria-label={`Delete ${category.title}`}
+                    >
+                    {deleteBusyId === category.id ? "Deleting..." : "Delete"}
+                </button>
                 </div>
               ) : (
                 <div className="flex items-center gap-2">
                   <button
-                    onClick={() => saveEdit(task)}
+                    onClick={() => saveEdit(category)}
                     className={`${updating ? "cursor-not-allowed" : "cursor-pointer"} rounded-lg bg-blue-600 px-3 py-1 text-white hover:bg-blue-700 disabled:bg-blue-400`}
                     disabled={updating}
                   >
