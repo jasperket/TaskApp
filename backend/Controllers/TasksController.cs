@@ -49,7 +49,7 @@ namespace TaskApi.Controllers
         [HttpPost]
         public async Task<ActionResult<TaskItem>> Create(CreateTaskDTO dto)
         {
-            // Basic validation
+            // Title validation
             if (string.IsNullOrWhiteSpace(dto.Title))
                 return BadRequest("Title is required.");
 
@@ -76,15 +76,27 @@ namespace TaskApi.Controllers
 
         // UPDATE: PUT /api/tasks/{id}
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> Update(int id, TaskItem dto)
+        public async Task<IActionResult> Update(int id, UpdateTaskDTO dto)
         {
             if (id != dto.Id) return BadRequest("ID mismatch.");
 
+            // Title validation
+            if (string.IsNullOrWhiteSpace(dto.Title))
+                return BadRequest("Title is required.");
 
-            var exists = await _db.Tasks.AnyAsync(t => t.Id == id);
-            if (!exists) return NotFound();
+            // Validate category
+            var category = await _db.Categories.FindAsync(dto.CategoryId);
+            if (category == null) return BadRequest("Category not found.");
 
-            _db.Entry(dto).State = EntityState.Modified;
+            var task = await _db.Tasks.FindAsync(id);
+            if (task == null) return NotFound();
+
+            task.Title = dto.Title;
+            task.IsDone = dto.IsDone;
+            task.DueDate = dto.DueDate;
+            task.EstimateHours = dto.EstimateHours;
+            task.CategoryId = dto.CategoryId;
+
             await _db.SaveChangesAsync();
 
             // 204 No Content means success with no body
