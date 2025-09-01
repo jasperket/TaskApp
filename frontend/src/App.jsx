@@ -56,33 +56,46 @@ export default function App() {
   return (
     <div className="min-h-screen bg-gray-100 text-gray-900">
       <Header />
-      <main className="max-w-3xl mx-auto p-6 space-y-6">
-
+      <main className="mx-auto max-w-3xl space-y-6 p-6">
         <h2 className="text-xl font-bold">Categories</h2>
         {/* Add Category Form */}
-        <CreateCategory setError={setCategories} loadTasks={loadTasks} />
+        <CreateCategory
+          setError={setCategoriesError}
+          loadCategories={loadCategories}
+        />
 
         {/* Category Errors / Loading */}
         {categoriesError && (
-          <div className="bg-red-50 border border-red-200 text-red-700 rounded-xl p-3">
+          <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-red-700">
             {categoriesError}
           </div>
         )}
-        {categoriesLoading && <div className="text-gray-600">Loading…</div>}
-
-        <CategoryList categories={categories} loading={categoriesLoading} setError={setCategoriesError} loadCategories={loadCategories} />
+        {categoriesLoading && categories.length === 0 ? (
+          <div className="text-gray-600">Loading…</div>
+        ) : (
+          <CategoryList
+            categories={categories}
+            loading={categoriesLoading}
+            setError={setCategoriesError}
+            loadCategories={loadCategories}
+          />
+        )}
 
         <h2 className="text-xl font-bold">Tasks</h2>
         {/* Create Form */}
-        <CreateTask setError={setTasksError} loadTasks={loadTasks} categories={categories} />
+        <CreateTask
+          setError={setTasksError}
+          loadTasks={loadTasks}
+          categories={categories}
+        />
 
         {/* Task Errors / Loading */}
         {tasksError && (
-          <div className="bg-red-50 border border-red-200 text-red-700 rounded-xl p-3">
+          <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-red-700">
             {tasksError}
           </div>
         )}
-        {tasksLoading || categoriesLoading && <div className="text-gray-600">Loading…</div>}
+        {tasksLoading && <div className="text-gray-600">Loading…</div>}
 
         {/* Task List */}
         <TaskList
