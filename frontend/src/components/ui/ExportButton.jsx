@@ -5,6 +5,11 @@ export default function ExportButton({ tasks, categories }) {
   const [exporting, setExporting] = useState(false);
   const [exportError, setExportError] = useState("");
 
+  async function exportData() {
+    console.log(tasks);
+    console.log(categories);
+  }
+
   return (
     <div className="flex gap-4">
       <button
