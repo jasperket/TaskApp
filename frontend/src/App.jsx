@@ -7,6 +7,7 @@ import { delay } from "./utils";
 import CreateCategory from "./components/ui/CreateCategory";
 import CategoryList from "./components/ui/CategoryList";
 import ExportButton from "./components/ui/ExportButton";
+import "./App.css";
 
 export default function App() {
   // ----- state for tasks list -----

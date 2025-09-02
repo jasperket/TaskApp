@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Download } from "lucide-react";
 import { delay, sortTasks } from "../../utils";
 import XLSX from "xlsx";
+import LoadingSpinner from "./LoadingSpinner";
 
 export default function ExportButton({ tasks, categories }) {
   const [exporting, setExporting] = useState(false);
@@ -72,7 +73,7 @@ export default function ExportButton({ tasks, categories }) {
         onClick={exportData}
       >
         {exporting ? "Exporting..." : "Export to Excel"}
-        <Download size={16} />
+        {exporting ? <LoadingSpinner /> : <Download size={16} />}
       </button>
       <p>{exportError}</p>
     </div>
