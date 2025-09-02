@@ -13,7 +13,7 @@ export default function App() {
   // ----- state for tasks list -----
   const [tasks, setTasks] = useState([]);
   const [tasksLoading, setTasksLoading] = useState(true);
-  const [tasksError, setTasksError] = useState("");
+  const [tasksError, setTasksError] = useState([]);
 
   // ----- state for categories list -----
   const [categories, setCategories] = useState([]);
@@ -100,7 +100,11 @@ export default function App() {
         {/* Task Errors / Loading */}
         {tasksError && (
           <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-red-700">
-            {tasksError}
+            <ul className="list-inside list-disc">
+              {tasksError.map((err, i) => (
+                <li key={i}>{err}</li>
+              ))}
+            </ul>
           </div>
         )}
         {tasksLoading ? (

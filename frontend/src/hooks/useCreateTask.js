@@ -12,20 +12,27 @@ export default function useCreateTask(setError, loadTasks) {
   // Handle create
   async function handleAdd(e) {
     e.preventDefault();
+    setError([]);
+    let hasError = false;
     if (!title.trim()) {
-      setError("Title is required.");
-      return;
+      setError((prev) => [...prev, "Title is required."]);
+      hasError = true;
     }
 
     if (!categoryId) {
-      setError("Category is required.");
-      return;
+      setError((prev) => [...prev, "Category is required."]);
+      hasError = true;
     }
 
-    if(estimateHours < 0) {
-      setError("Estimated hours must be a positive number.");
-      return;
+    if (estimateHours < 0) {
+      setError((prev) => [
+        ...prev,
+        "Estimated hours must be a greater than or equal to zero.",
+      ]);
+      hasError = true;
     }
+
+    if (hasError) return;
 
     try {
       setSaving(true);
@@ -54,5 +61,16 @@ export default function useCreateTask(setError, loadTasks) {
     }
   }
 
-  return { title, dueDate, saving, handleAdd, setTitle, setDueDate, estimateHours, setEstimateHours, categoryId, setCategoryId };
+  return {
+    title,
+    dueDate,
+    saving,
+    handleAdd,
+    setTitle,
+    setDueDate,
+    estimateHours,
+    setEstimateHours,
+    categoryId,
+    setCategoryId,
+  };
 }
