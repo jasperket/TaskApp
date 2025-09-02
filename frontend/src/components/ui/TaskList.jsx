@@ -1,6 +1,7 @@
 import useEditTask from "../../hooks/useEditTask";
 import useDeleteTask from "../../hooks/useDeleteTask";
 import DeleteBtn from "./DeleteBtn";
+import { sortTasks } from "../../utils";
 
 export default function TaskList({
   tasks,
@@ -29,14 +30,7 @@ export default function TaskList({
 
   const { deleteBusyId, remove } = useDeleteTask(setError, loadTasks);
 
-  const sorted = [...tasks].sort((a, b) => {
-    // Pending first (false < true)
-    if (a.isDone !== b.isDone) return a.isDone - b.isDone;
-    // Then by due date (nulls last)
-    const ad = a.dueDate ? new Date(a.dueDate).getTime() : Infinity;
-    const bd = b.dueDate ? new Date(b.dueDate).getTime() : Infinity;
-    return ad - bd;
-  });
+  const sorted = sortTasks(tasks);
 
   return (
     <ul className="relative divide-y divide-gray-100 rounded-2xl bg-white shadow">
@@ -56,127 +50,125 @@ export default function TaskList({
         const rowBusy = toggleBusyId === task.id || deleteBusyId === task.id;
         const category = categories.find((c) => c.id === task.categoryId);
         return (
-          <>
-            <li key={task.id} className="relative flex items-center gap-3 p-4">
-              {/* Done checkbox */}
-              <input
-                type="checkbox"
-                className={`size-5 accent-blue-600 ${rowBusy || isEditing ? "cursor-not-allowed" : "cursor-pointer"}`}
-                checked={task.isDone}
-                onChange={() => toggleDone(task)}
-                disabled={rowBusy || isEditing}
-                aria-label={`Toggle ${task.title}`}
-              />
-              {/* Content area */}
-              <div className="flex-1">
-                {!isEditing ? (
-                  <>
-                    <div
-                      className={`font-medium ${
-                        task.isDone ? "text-gray-400 line-through" : ""
-                      }`}
-                    >
-                      {task.title}
-                    </div>
-                    <div className="flex gap-4">
-                      {task.dueDate && (
-                        <div className="text-sm text-gray-500">
-                          Due: {new Date(task.dueDate).toLocaleDateString()}
-                        </div>
-                      )}
-                      {task.estimateHours > 0 && (
-                        <div className="text-sm text-gray-500">
-                          Estimated: {task.estimateHours} hours
-                        </div>
-                      )}
-                    </div>
-                  </>
-                ) : (
-                  <div className="flex flex-wrap gap-3">
-                    <input
-                      className="min-w-56 flex-1 rounded-xl border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
-                      value={editTitle}
-                      onChange={(e) => setEditTitle(e.target.value)}
-                      placeholder="Title"
-                      disabled={updating}
-                    />
-                    <select
-                      name="category"
-                      id="category"
-                      className="flex-1 rounded-xl border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
-                      value={editCategoryId}
-                      onChange={(e) => setEditCategoryId(e.target.value)}
-                    >
-                      <option value="">Select a category</option>
-                      {/* Category Loading */}
-                      {categories.length === 0 && <option>Loading…</option>}
-                      {categories.map((category) => (
-                        <option key={category.id} value={category.id}>
-                          {category.name}
-                        </option>
-                      ))}
-                    </select>
-                    <input
-                      type="date"
-                      className="flex-1 rounded-xl border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
-                      value={editDueDate}
-                      onChange={(e) => setEditDueDate(e.target.value)}
-                      disabled={updating}
-                    />
-                    <input
-                      type="number"
-                      className="flex-1 rounded-xl border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
-                      value={editEstimateHours}
-                      onChange={(e) => setEditEstimateHours(e.target.value)}
-                      disabled={updating}
-                    />
-                  </div>
-                )}
-              </div>
-              {/* Right-side actions */}
+          <li key={task.id} className="relative flex items-center gap-3 p-4">
+            {/* Done checkbox */}
+            <input
+              type="checkbox"
+              className={`size-5 accent-blue-600 ${rowBusy || isEditing ? "cursor-not-allowed" : "cursor-pointer"}`}
+              checked={task.isDone}
+              onChange={() => toggleDone(task)}
+              disabled={rowBusy || isEditing}
+              aria-label={`Toggle ${task.title}`}
+            />
+            {/* Content area */}
+            <div className="flex-1">
               {!isEditing ? (
-                <div className="flex items-center gap-2">
-                  <h3 className="font-semibold">{category?.name}</h3>
-                  <button
-                    onClick={() => startEdit(task)}
-                    disabled={rowBusy}
-                    className={`cursor-pointer rounded-lg px-3 py-1 text-gray-700 ${
-                      rowBusy
-                        ? "cursor-not-allowed bg-gray-200"
-                        : "bg-gray-100 hover:bg-gray-200"
+                <>
+                  <div
+                    className={`font-medium ${
+                      task.isDone ? "text-gray-400 line-through" : ""
                     }`}
                   >
-                    Edit
-                  </button>
-                  <DeleteBtn
-                    task={task}
-                    rowBusy={rowBusy}
-                    setError={setError}
-                    loadTasks={loadTasks}
-                    deleteBusyId={deleteBusyId}
-                    remove={remove}
+                    {task.title}
+                  </div>
+                  <div className="flex gap-4">
+                    {task.dueDate && (
+                      <div className="text-sm text-gray-500">
+                        Due: {new Date(task.dueDate).toLocaleDateString()}
+                      </div>
+                    )}
+                    {task.estimateHours > 0 && (
+                      <div className="text-sm text-gray-500">
+                        Estimated: {task.estimateHours} hours
+                      </div>
+                    )}
+                  </div>
+                </>
+              ) : (
+                <div className="flex flex-wrap gap-3">
+                  <input
+                    className="min-w-56 flex-1 rounded-xl border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
+                    value={editTitle}
+                    onChange={(e) => setEditTitle(e.target.value)}
+                    placeholder="Title"
+                    disabled={updating}
+                  />
+                  <select
+                    name="category"
+                    id="category"
+                    className="flex-1 rounded-xl border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
+                    value={editCategoryId}
+                    onChange={(e) => setEditCategoryId(e.target.value)}
+                  >
+                    <option value="">Select a category</option>
+                    {/* Category Loading */}
+                    {categories.length === 0 && <option>Loading…</option>}
+                    {categories.map((category) => (
+                      <option key={category.id} value={category.id}>
+                        {category.name}
+                      </option>
+                    ))}
+                  </select>
+                  <input
+                    type="date"
+                    className="flex-1 rounded-xl border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
+                    value={editDueDate}
+                    onChange={(e) => setEditDueDate(e.target.value)}
+                    disabled={updating}
+                  />
+                  <input
+                    type="number"
+                    className="flex-1 rounded-xl border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
+                    value={editEstimateHours}
+                    onChange={(e) => setEditEstimateHours(e.target.value)}
+                    disabled={updating}
                   />
                 </div>
-              ) : (
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => saveEdit(task)}
-                    className={`${updating ? "cursor-not-allowed" : "cursor-pointer"} rounded-lg bg-blue-600 px-3 py-1 text-white hover:bg-blue-700 disabled:bg-blue-400`}
-                    disabled={updating}
-                  >
-                    {updating ? "Saving..." : "Save"}
-                  </button>
-                  <button
-                    onClick={cancelEdit}
-                    className={`${updating ? "cursor-not-allowed" : "cursor-pointer"} rounded-lg bg-gray-100 px-3 py-1 text-gray-700 hover:bg-gray-200`}
-                    disabled={updating}
-                  >
-                    Cancel
-                  </button>
-                </div>
               )}
-            </li>
-          </>
+            </div>
+            {/* Right-side actions */}
+            {!isEditing ? (
+              <div className="flex items-center gap-2">
+                <h3 className="font-semibold">{category?.name}</h3>
+                <button
+                  onClick={() => startEdit(task)}
+                  disabled={rowBusy}
+                  className={`cursor-pointer rounded-lg px-3 py-1 text-gray-700 ${
+                    rowBusy
+                      ? "cursor-not-allowed bg-gray-200"
+                      : "bg-gray-100 hover:bg-gray-200"
+                  }`}
+                >
+                  Edit
+                </button>
+                <DeleteBtn
+                  task={task}
+                  rowBusy={rowBusy}
+                  setError={setError}
+                  loadTasks={loadTasks}
+                  deleteBusyId={deleteBusyId}
+                  remove={remove}
+                />
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => saveEdit(task)}
+                  className={`${updating ? "cursor-not-allowed" : "cursor-pointer"} rounded-lg bg-blue-600 px-3 py-1 text-white hover:bg-blue-700 disabled:bg-blue-400`}
+                  disabled={updating}
+                >
+                  {updating ? "Saving..." : "Save"}
+                </button>
+                <button
+                  onClick={cancelEdit}
+                  className={`${updating ? "cursor-not-allowed" : "cursor-pointer"} rounded-lg bg-gray-100 px-3 py-1 text-gray-700 hover:bg-gray-200`}
+                  disabled={updating}
+                >
+                  Cancel
+                </button>
+              </div>
+            )}
+          </li>
         );
       })}
     </ul>
