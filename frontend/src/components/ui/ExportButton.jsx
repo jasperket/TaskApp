@@ -17,8 +17,8 @@ export default function ExportButton({ tasks, categories, tasksLoading }) {
         "Due Date": task.dueDate
           ? new Date(task.dueDate).toLocaleDateString()
           : "",
-        "Estimated Hours": task.estimateHours,
         Category: categories.find((c) => c.id === task.categoryId).name,
+        "Estimated Hours": task.estimateHours,
       };
     });
     return data;
