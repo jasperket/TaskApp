@@ -59,7 +59,7 @@ export default function CreateTask({ setError, loadTasks, categories }) {
         </div>
         <div className="flex-1">
           <label className="mb-1 block text-sm text-gray-600">
-            Estimated hours
+            Estimated hours *
           </label>
           <input
             type="number"
