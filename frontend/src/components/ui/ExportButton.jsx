@@ -6,7 +6,6 @@ import LoadingSpinner from "./LoadingSpinner";
 
 export default function ExportButton({ tasks, categories }) {
   const [exporting, setExporting] = useState(false);
-  const [exportError, setExportError] = useState("");
 
   function prepareData() {
     const sorted = sortTasks(tasks);
@@ -27,8 +26,6 @@ export default function ExportButton({ tasks, categories }) {
 
   async function exportData() {
     setExporting(true);
-    setExportError("");
-    await delay(1000);
     const data = prepareData();
 
     // Convert to sheet
@@ -58,7 +55,6 @@ export default function ExportButton({ tasks, categories }) {
     XLSX.writeFile(workbook, "Tasks.xlsx", { compression: true });
 
     setExporting(false);
-    setExportError("");
   }
 
   return (
@@ -75,7 +71,6 @@ export default function ExportButton({ tasks, categories }) {
         {exporting ? "Exporting..." : "Export to Excel"}
         {exporting ? <LoadingSpinner /> : <Download size={16} />}
       </button>
-      <p>{exportError}</p>
     </div>
   );
 }
