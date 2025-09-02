@@ -27,9 +27,8 @@ export default function ExportButton({ tasks, categories, tasksLoading }) {
   function calculateWidths(data, columns) {
     const widths = [];
     for (const column of columns) {
-      console.log(column);
       const max_width = data.reduce(
-        (w, r) => Math.max(w, r[column].length, column.length),
+        (w, r) => Math.max(w, r[column].toString().length, column.length),
         10,
       );
       widths.push({ wch: max_width });
