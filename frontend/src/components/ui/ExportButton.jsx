@@ -26,6 +26,7 @@ export default function ExportButton({ tasks, categories }) {
 
   async function exportData() {
     setExporting(true);
+    await delay(1000);
     const data = prepareData();
 
     // Convert to sheet
