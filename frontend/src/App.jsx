@@ -58,6 +58,11 @@ export default function App() {
   return (
     <div className="min-h-screen bg-gray-100 text-gray-900">
       <Header />
+      <ExportButton
+        tasks={tasks}
+        categories={categories}
+        tasksLoading={tasksLoading}
+      />
       <main className="mx-auto max-w-3xl space-y-6 p-6">
         <h2 className="text-xl font-bold">Categories</h2>
         {/* Add Category Form */}
@@ -109,7 +114,6 @@ export default function App() {
               loadTasks={loadTasks}
               categories={categories}
             />
-            <ExportButton tasks={tasks} categories={categories} />
           </>
         )}
       </main>

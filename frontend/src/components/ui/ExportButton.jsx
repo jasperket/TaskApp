@@ -4,7 +4,7 @@ import { delay, sortTasks } from "../../utils";
 import XLSX from "xlsx";
 import LoadingSpinner from "./LoadingSpinner";
 
-export default function ExportButton({ tasks, categories }) {
+export default function ExportButton({ tasks, categories, tasksLoading }) {
   const [exporting, setExporting] = useState(false);
 
   function prepareData() {
@@ -62,19 +62,21 @@ export default function ExportButton({ tasks, categories }) {
   }
 
   return (
-    <div className="flex gap-4">
-      <button
-        disabled={exporting}
-        className={`flex items-center gap-2 rounded-xl px-4 py-2 text-white ${
-          exporting
-            ? "cursor-not-allowed bg-green-700"
-            : "cursor-pointer bg-green-600 hover:bg-green-700"
-        }`}
-        onClick={exportData}
-      >
-        {exporting ? "Exporting..." : "Export to Excel"}
-        {exporting ? <LoadingSpinner /> : <Download size={16} />}
-      </button>
+    <div className="mx-auto max-w-3xl px-6">
+      <div className="flex gap-4">
+        <button
+          disabled={exporting || tasksLoading}
+          className={`flex items-center gap-2 rounded-xl px-4 py-2 text-white ${
+            exporting || tasksLoading
+              ? "cursor-not-allowed bg-green-700"
+              : "cursor-pointer bg-green-600 hover:bg-green-700"
+          }`}
+          onClick={exportData}
+        >
+          {exporting ? "Exporting..." : "Export to Excel"}
+          {exporting ? <LoadingSpinner /> : <Download size={16} />}
+        </button>
+      </div>
     </div>
   );
 }
