@@ -6,6 +6,7 @@ import TaskList from "./components/ui/TaskList";
 import { delay } from "./utils";
 import CreateCategory from "./components/ui/CreateCategory";
 import CategoryList from "./components/ui/CategoryList";
+import ExportButton from "./components/ui/ExportButton";
 
 export default function App() {
   // ----- state for tasks list -----
@@ -99,13 +100,16 @@ export default function App() {
         {tasksLoading ? (
           <div className="text-gray-600">Loading…</div>
         ) : (
-          <TaskList
-            tasks={tasks}
-            loading={tasksLoading}
-            setError={setTasksError}
-            loadTasks={loadTasks}
-            categories={categories}
-          />
+          <>
+            <TaskList
+              tasks={tasks}
+              loading={tasksLoading}
+              setError={setTasksError}
+              loadTasks={loadTasks}
+              categories={categories}
+            />
+            <ExportButton tasks={tasks} categories={categories} />
+          </>
         )}
       </main>
     </div>
