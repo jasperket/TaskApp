@@ -70,7 +70,7 @@ export default function App() {
             {categoriesError}
           </div>
         )}
-        {categoriesLoading || categories.length === 0 ? (
+        {categoriesLoading ? (
           <div className="text-gray-600">Loading…</div>
         ) : (
           <CategoryList
@@ -96,7 +96,7 @@ export default function App() {
             {tasksError}
           </div>
         )}
-        {tasksLoading || tasks.length === 0 ? (
+        {tasksLoading ? (
           <div className="text-gray-600">Loading…</div>
         ) : (
           <TaskList
