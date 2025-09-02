@@ -13,13 +13,13 @@ export default function useEditTask(setError, loadTasks) {
 
   async function toggleDone(task) {
     try {
-      setError("");
+      setError([]);
       setToggleBusyId(task.id);
       await delay(1000);
       await api.updateTask(task.id, { ...task, isDone: !task.isDone });
       await loadTasks();
     } catch (err) {
-      setError(err.message || "Failed to update task");
+      setError((prev) => [...prev, err.message || "Failed to toggle task"]);
     } finally {
       setToggleBusyId(null);
     }
@@ -48,24 +48,28 @@ export default function useEditTask(setError, loadTasks) {
   }
 
   async function saveEdit(originalTask) {
+    setError([]);
+    let hasError = false;
     if (!editTitle.trim()) {
-      setError("Title is required.");
-      return;
+      setError((prev) => [...prev, "Title is required."]);
     }
 
     if (!editCategoryId) {
-      setError("Category is required.");
-      return;
+      setError((prev) => [...prev, "Category is required."]);
     }
 
     if (editEstimateHours < 0) {
-      setError("Estimated hours must be greater than or equal to 0.");
-      return;
+      setError((prev) => [
+        ...prev,
+        "Estimated hours must be greater than or equal to zero.",
+      ]);
     }
+
+    if (hasError) return;
 
     try {
       setUpdating(true);
-      setError("");
+      setError([]);
 
       const payload = {
         ...originalTask,
@@ -81,7 +85,7 @@ export default function useEditTask(setError, loadTasks) {
       cancelEdit();
       await loadTasks();
     } catch (err) {
-      setError(err.message || "Failed to update task");
+      setError((prev) => [...prev, err.message || "Failed to update task"]);
     } finally {
       setUpdating(false);
     }

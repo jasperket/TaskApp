@@ -27,7 +27,7 @@ export default function useCreateTask(setError, loadTasks) {
     if (estimateHours < 0) {
       setError((prev) => [
         ...prev,
-        "Estimated hours must be a greater than or equal to zero.",
+        "Estimated hours must be greater than or equal to zero.",
       ]);
       hasError = true;
     }
@@ -36,7 +36,7 @@ export default function useCreateTask(setError, loadTasks) {
 
     try {
       setSaving(true);
-      setError("");
+      setError([]);
 
       // Send null if no date picked; the API accepts either ISO date or null
       await api.createTask({
@@ -55,7 +55,7 @@ export default function useCreateTask(setError, loadTasks) {
       setCategoryId(0);
       await loadTasks();
     } catch (err) {
-      setError(err.message || "Failed to create task");
+      setError((prev) => [...prev, err.message || "Failed to create task"]);
     } finally {
       setSaving(false);
     }
