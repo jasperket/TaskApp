@@ -107,6 +107,7 @@ export default function App() {
           <div className="text-gray-600">Loading…</div>
         ) : (
           <>
+            {/* Select to filter categories */}
             <div className="mb-2 flex w-fit items-center gap-2 p-2">
               <p>Filter:</p>
               <select
