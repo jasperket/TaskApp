@@ -52,10 +52,12 @@ export default function useEditTask(setError, loadTasks) {
     let hasError = false;
     if (!editTitle.trim()) {
       setError((prev) => [...prev, "Title is required."]);
+      hasError = true;
     }
 
     if (!editCategoryId) {
       setError((prev) => [...prev, "Category is required."]);
+      hasError = true;
     }
 
     if (editEstimateHours < 0) {
@@ -63,6 +65,12 @@ export default function useEditTask(setError, loadTasks) {
         ...prev,
         "Estimated hours must be greater than or equal to zero.",
       ]);
+      hasError = true;
+    }
+
+    if (editEstimateHours === "") {
+      setError((prev) => [...prev, "Estimated hours is required."]);
+      hasError = true;
     }
 
     if (hasError) return;

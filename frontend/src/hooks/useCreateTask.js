@@ -32,6 +32,11 @@ export default function useCreateTask(setError, loadTasks) {
       hasError = true;
     }
 
+    if (estimateHours === "") {
+      setError((prev) => [...prev, "Estimated hours is required."]);
+      hasError = true;
+    }
+
     if (hasError) return;
 
     try {
