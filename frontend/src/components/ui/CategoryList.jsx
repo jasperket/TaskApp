@@ -36,6 +36,13 @@ export default function CategoryList({
   return (
     <ul className="relative divide-y divide-gray-100 rounded-t-2xl bg-white shadow">
       {/* Display if no category */}
+      <li
+        className="relative flex gap-3 p-4 font-medium"
+        onClick={handleSelectCategory.bind(null, 0)}
+      >
+        <span className="absolute inset-0 cursor-pointer hover:bg-gray-100/50"></span>
+        Select a category
+      </li>
       {categories.length === 0 && !loading && (
         <li className="p-8 text-center text-gray-500">
           <div className="text-lg font-medium">No categories yet</div>

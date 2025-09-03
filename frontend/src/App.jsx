@@ -18,6 +18,9 @@ export default function App() {
   const [categoriesLoading, setCategoriesLoading] = useState(true);
   const [categoriesError, setCategoriesError] = useState("");
 
+  // ----- state for filtering by category -----
+  const [categoryId, setCategoryId] = useState(0);
+
   // Load tasks from API
   async function loadTasks() {
     try {

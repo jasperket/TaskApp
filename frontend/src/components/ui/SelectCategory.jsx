@@ -33,7 +33,7 @@ export default function SelectCategory({
       {isOpen && (
         <div className="absolute z-10 mt-2 w-full rounded-xl border border-gray-300 bg-white shadow">
           {loading ? (
-            <p className="p-8">Loading…</p>
+            <p className="p-4">Loading…</p>
           ) : (
             <>
               {/* Category Errors / Loading */}

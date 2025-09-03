@@ -14,3 +14,7 @@
     transform: rotate(360deg);
   }
 }
+
+body {
+  background-color: var(--color-gray-100);
+}
