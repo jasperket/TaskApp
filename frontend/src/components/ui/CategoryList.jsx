@@ -27,7 +27,7 @@ export default function CategoryList({
   );
 
   return (
-    <ul className="relative divide-y divide-gray-100 rounded-2xl bg-white shadow">
+    <ul className="relative divide-y divide-gray-100 rounded-t-2xl bg-white shadow">
       {/* Display if no category */}
       {categories.length === 0 && !loading && (
         <li className="p-8 text-center text-gray-500">

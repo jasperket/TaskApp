@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ChevronUp, ChevronDown } from "lucide-react";
 import CategoryList from "./CategoryList";
+import CreateCategory from "./CreateCategory";
 
 export default function SelectCategory({
   categoryId,
@@ -26,11 +27,10 @@ export default function SelectCategory({
         <div className="absolute z-10 mt-1 w-full rounded-xl border border-gray-300 bg-white shadow">
           <CategoryList
             categories={categories}
-            loading={false}
-            setError={() => {}}
             loadTasks={loadTasks}
             setCategoryId={setCategoryId}
           />
+          <CreateCategory setCategoryId={setCategoryId} loadTasks={loadTasks} />
         </div>
       )}
     </div>
