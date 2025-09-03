@@ -72,7 +72,7 @@ export default function App() {
         />
 
         {/* Category Errors / Loading */}
-        {categoriesError && (
+        {categoriesError && categoriesError.length > 0 && (
           <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-red-700">
             {categoriesError}
           </div>
@@ -97,8 +97,8 @@ export default function App() {
           categories={categories}
         />
 
-        {/* Task Errors / Loading */}
-        {tasksError && (
+        {/* Task Errors */}
+        {tasksError && tasksError.length > 0 && (
           <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-red-700">
             <ul className="list-inside list-disc">
               {tasksError.map((err, i) => (
@@ -107,6 +107,7 @@ export default function App() {
             </ul>
           </div>
         )}
+        {/* Loading state */}
         {tasksLoading ? (
           <div className="text-gray-600">Loading…</div>
         ) : (
