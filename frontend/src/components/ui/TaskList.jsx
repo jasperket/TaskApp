@@ -2,6 +2,7 @@ import useEditTask from "../../hooks/useEditTask";
 import useDeleteTask from "../../hooks/useDeleteTask";
 import DeleteBtn from "./DeleteBtn";
 import { sortTasks } from "../../utils";
+import SelectCategory from "./SelectCategory";
 
 export default function TaskList({
   tasks,
@@ -9,6 +10,8 @@ export default function TaskList({
   setError,
   loadTasks,
   categories,
+  categoriesLoading,
+  loadCategories,
 }) {
   const {
     editId,
@@ -85,44 +88,40 @@ export default function TaskList({
                   </div>
                 </>
               ) : (
-                <div className="flex flex-wrap gap-3">
-                  <input
-                    className="min-w-56 flex-1 rounded-xl border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
-                    value={editTitle}
-                    onChange={(e) => setEditTitle(e.target.value)}
-                    placeholder="Title"
-                    disabled={updating}
-                  />
-                  <select
-                    name="category"
-                    id="category"
-                    className="flex-1 rounded-xl border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
-                    value={editCategoryId}
-                    onChange={(e) => setEditCategoryId(e.target.value)}
-                  >
-                    <option value="">Select a category</option>
-                    {/* Category Loading */}
-                    {categories.length === 0 && <option>Loading…</option>}
-                    {categories.map((category) => (
-                      <option key={category.id} value={category.id}>
-                        {category.name}
-                      </option>
-                    ))}
-                  </select>
-                  <input
-                    type="date"
-                    className="flex-1 rounded-xl border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
-                    value={editDueDate}
-                    onChange={(e) => setEditDueDate(e.target.value)}
-                    disabled={updating}
-                  />
-                  <input
-                    type="number"
-                    className="flex-1 rounded-xl border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
-                    value={editEstimateHours}
-                    onChange={(e) => setEditEstimateHours(e.target.value)}
-                    disabled={updating}
-                  />
+                <div className="flex flex-col gap-2">
+                  <div className="grid grid-cols-2 gap-2">
+                    <input
+                      className="flex-1 rounded-xl border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
+                      value={editTitle}
+                      onChange={(e) => setEditTitle(e.target.value)}
+                      placeholder="Title"
+                      disabled={updating}
+                    />
+                    <SelectCategory
+                      categoryId={editCategoryId}
+                      setCategoryId={setEditCategoryId}
+                      categories={categories}
+                      loadTasks={loadTasks}
+                      loadCategories={loadCategories}
+                      loading={categoriesLoading}
+                    />
+                  </div>
+                  <div className="flex gap-2">
+                    <input
+                      type="date"
+                      className="flex-1 rounded-xl border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
+                      value={editDueDate}
+                      onChange={(e) => setEditDueDate(e.target.value)}
+                      disabled={updating}
+                    />
+                    <input
+                      type="number"
+                      className="flex-1 rounded-xl border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
+                      value={editEstimateHours}
+                      onChange={(e) => setEditEstimateHours(e.target.value)}
+                      disabled={updating}
+                    />
+                  </div>
                 </div>
               )}
             </div>

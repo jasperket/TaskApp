@@ -102,6 +102,8 @@ export default function App() {
               setError={setTasksError}
               loadTasks={loadTasks}
               categories={categories}
+              categoriesLoading={categoriesLoading}
+              loadCategories={loadCategories}
             />
           </>
         )}
