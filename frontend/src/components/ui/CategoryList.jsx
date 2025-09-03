@@ -40,7 +40,7 @@ export default function CategoryList({
         <li className="p-8 text-center text-gray-500">
           <div className="text-lg font-medium">No categories yet</div>
           <div className="text-sm">
-            Add your first category using the form above.
+            Add your first category using the form below.
           </div>
         </li>
       )}
