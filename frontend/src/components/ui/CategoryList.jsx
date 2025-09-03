@@ -117,7 +117,10 @@ export default function CategoryList({
               ) : (
                 <div className="flex items-center gap-2">
                   <button
-                    onClick={() => saveEdit(category)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      saveEdit(category);
+                    }}
                     className={`${updating ? "cursor-not-allowed" : "cursor-pointer"} rounded-lg bg-blue-600 px-3 py-1 text-white hover:bg-blue-700 disabled:bg-blue-400`}
                     disabled={updating}
                   >
