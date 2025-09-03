@@ -58,7 +58,7 @@ export default function App() {
 
   const filteredTasks = useMemo(() => {
     if (categoryId === 0) return tasks;
-    return tasks.filter((t) => t.categoryId === parseInt(categoryId));
+    return tasks.filter((t) => t.categoryId === categoryId);
   }, [tasks, categoryId]);
 
   useEffect(() => {
