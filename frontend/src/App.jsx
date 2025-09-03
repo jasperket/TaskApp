@@ -74,6 +74,13 @@ export default function App() {
           categoriesLoading={categoriesLoading}
         />
 
+        {/* Category Errors / Loading */}
+        {categoriesError && categoriesError.length > 0 && (
+          <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-red-700">
+            {categoriesError}
+          </div>
+        )}
+
         {/* Task Errors */}
         {tasksError && tasksError.length > 0 && (
           <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-red-700">
