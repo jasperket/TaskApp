@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { api } from "./api";
 import Header from "./components/layout/Header";
 import CreateTask from "./components/ui/CreateTask";
@@ -6,6 +6,7 @@ import TaskList from "./components/ui/TaskList";
 import { delay } from "./utils";
 import ExportButton from "./components/ui/ExportButton";
 import "./App.css";
+import SelectCategory from "./components/ui/SelectCategory";
 
 export default function App() {
   // ----- state for tasks list -----
@@ -51,6 +52,11 @@ export default function App() {
     }
   }
 
+  const filteredTasks = useMemo(() => {
+    if (categoryId === 0) return tasks;
+    return tasks.filter((t) => t.categoryId === categoryId);
+  }, [tasks, categoryId]);
+
   useEffect(() => {
     loadCategories();
     loadTasks();
@@ -60,7 +66,7 @@ export default function App() {
     <div className="min-h-screen bg-gray-100 text-gray-900">
       <Header />
       <ExportButton
-        tasks={tasks}
+        tasks={filteredTasks}
         categories={categories}
         tasksLoading={tasksLoading}
       />
@@ -97,8 +103,19 @@ export default function App() {
           <div className="text-gray-600">Loading…</div>
         ) : (
           <>
+            <div className="flex w-fit items-center gap-2 rounded-xl bg-white p-4">
+              <p>Filter by Category:</p>
+              <SelectCategory
+                categoryId={categoryId}
+                setCategoryId={setCategoryId}
+                categories={categories}
+                loadTasks={loadTasks}
+                loadCategories={loadCategories}
+                loading={categoriesLoading}
+              />
+            </div>
             <TaskList
-              tasks={tasks}
+              tasks={filteredTasks}
               loading={tasksLoading}
               setError={setTasksError}
               loadTasks={loadTasks}
