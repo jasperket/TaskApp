@@ -107,23 +107,24 @@ export default function App() {
           <div className="text-gray-600">Loading…</div>
         ) : (
           <>
-            {/* Select to filter categories */}
-            <div className="mb-2 flex w-fit items-center gap-2 p-2">
-              <p>Filter:</p>
-              <select
-                name="category"
-                id="category"
-                onChange={handleCategoryChange}
-                className="w-full rounded-xl border border-gray-300 bg-white px-2 py-1 outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="0">All Categories</option>
-                {categories.map((category) => (
-                  <option key={category.id} value={category.id}>
-                    {category.name}
-                  </option>
-                ))}
-              </select>
-            </div>
+            {filteredTasks.length !== 0 && (
+              <div className="mb-2 flex w-fit items-center gap-2 p-2">
+                <p>Filter:</p>
+                <select
+                  name="category"
+                  id="category"
+                  onChange={handleCategoryChange}
+                  className="w-full rounded-xl border border-gray-300 bg-white px-2 py-1 outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="0">All Categories</option>
+                  {categories.map((category) => (
+                    <option key={category.id} value={category.id}>
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
             <TaskList
               tasks={filteredTasks}
               loading={tasksLoading}
