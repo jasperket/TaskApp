@@ -13,7 +13,7 @@ namespace TaskApi.Controllers
         private readonly AppDbContext _db;
         public TasksController(AppDbContext db) => _db = db;
 
-        // READ ALL: GET /api/tasks
+        // READ ALL: GET /api/Tasks
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TaskItem>>> GetAll()
         {
@@ -25,7 +25,7 @@ namespace TaskApi.Controllers
             return Ok(items);
         }
 
-        // READ ONE: GET /api/tasks/{id}
+        // READ ONE: GET /api/Tasks/{id}
         [HttpGet("{id:int}")]
         public async Task<ActionResult<TaskItem>> GetById(int id)
         {
@@ -45,7 +45,7 @@ namespace TaskApi.Controllers
             return Ok(tasks);
         }
 
-        // CREATE: POST /api/tasks
+        // CREATE: POST /api/Tasks
         [HttpPost]
         public async Task<ActionResult<TaskItem>> Create(CreateTaskDTO dto)
         {
@@ -74,7 +74,7 @@ namespace TaskApi.Controllers
             return CreatedAtAction(nameof(GetById), new { id = task.Id }, task);
         }
 
-        // UPDATE: PUT /api/tasks/{id}
+        // UPDATE: PUT /api/Tasks/{id}
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(int id, UpdateTaskDTO dto)
         {
@@ -103,7 +103,7 @@ namespace TaskApi.Controllers
             return NoContent();
         }
 
-        // DELETE: DELETE /api/tasks/{id}
+        // DELETE: DELETE /api/Tasks/{id}
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
