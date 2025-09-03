@@ -1,25 +1,23 @@
 import useCreateCategory from "../../hooks/useCreateCategory";
 
-export default function CreateCategory({setError, loadCategories}) {
-    const {name, saving, handleAdd, setName} = useCreateCategory(setError, loadCategories);
+export default function CreateCategory({ setError, loadCategories }) {
+  const { name, saving, handleAdd, setName } = useCreateCategory(
+    setError,
+    loadCategories,
+  );
   return (
-    <form
-      onSubmit={handleAdd}
-      className="flex flex-wrap items-end gap-3 rounded-2xl bg-white p-4 shadow"
-    >
-      <div className="min-w-56 flex-1">
-        <label className="mb-1 block text-sm text-gray-600">Name *</label>
+    <div className="flex flex-wrap items-end gap-3 rounded-2xl bg-white p-4 shadow">
+      <div className="flex-1">
         <input
           className="w-full rounded-xl border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Work"
+          placeholder="Category name"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
       </div>
 
-
       <button
-        type="submit"
+        onClick={handleAdd}
         disabled={saving}
         className={`rounded-xl px-4 py-2 text-white ${
           saving
@@ -29,6 +27,6 @@ export default function CreateCategory({setError, loadCategories}) {
       >
         {saving ? "Adding..." : "Add"}
       </button>
-    </form>
+    </div>
   );
 }

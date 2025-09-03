@@ -1,7 +1,13 @@
 import useCreateTask from "../../hooks/useCreateTask";
 import SelectCategory from "./SelectCategory";
 
-export default function CreateTask({ setError, loadTasks, categories }) {
+export default function CreateTask({
+  setError,
+  loadTasks,
+  categories,
+  loadCategories,
+  categoriesLoading,
+}) {
   const {
     title,
     dueDate,
@@ -35,6 +41,9 @@ export default function CreateTask({ setError, loadTasks, categories }) {
             categoryId={categoryId}
             setCategoryId={setCategoryId}
             categories={categories}
+            loadTasks={loadTasks}
+            loadCategories={loadCategories}
+            loading={categoriesLoading}
           />
         </div>
       </div>

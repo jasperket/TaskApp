@@ -9,6 +9,8 @@ export default function CategoryList({
   setError,
   loadCategories,
   loadTasks,
+  setCategoryId,
+  setIsOpen,
 }) {
   const {
     editId,
@@ -25,6 +27,11 @@ export default function CategoryList({
     loadCategories,
     loadTasks,
   );
+
+  function handleSelectCategory(categoryId) {
+    setCategoryId(categoryId);
+    setIsOpen(false);
+  }
 
   return (
     <ul className="relative divide-y divide-gray-100 rounded-t-2xl bg-white shadow">
@@ -49,6 +56,12 @@ export default function CategoryList({
               key={category.id}
               className="relative flex items-center gap-3 p-4"
             >
+              {!isEditing && (
+                <span
+                  className="absolute inset-0 cursor-pointer hover:bg-gray-100/50"
+                  onClick={handleSelectCategory.bind(null, category.id)}
+                ></span>
+              )}
               {/* Content area */}
               <div className="flex-1">
                 {!isEditing ? (
@@ -58,7 +71,7 @@ export default function CategoryList({
                 ) : (
                   <div className="flex flex-wrap gap-3">
                     <input
-                      className="min-w-56 flex-1 rounded-xl border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full flex-1 rounded-xl border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
                       value={editName}
                       onChange={(e) => setEditName(e.target.value)}
                       placeholder="Title"
@@ -71,9 +84,12 @@ export default function CategoryList({
               {!isEditing ? (
                 <div className="flex items-center gap-2">
                   <button
-                    onClick={() => startEdit(category)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      startEdit(category);
+                    }}
                     disabled={rowBusy}
-                    className={`cursor-pointer rounded-lg px-3 py-1 text-gray-700 ${
+                    className={`isolate cursor-pointer rounded-lg px-3 py-1 text-gray-700 ${
                       rowBusy
                         ? "cursor-not-allowed bg-gray-200"
                         : "bg-gray-100 hover:bg-gray-200"
@@ -82,13 +98,14 @@ export default function CategoryList({
                     Edit
                   </button>
                   <button
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.preventDefault();
                       if (confirm(`Delete "${category.name}"?`)) {
                         remove(category.id);
                       }
                     }}
                     disabled={rowBusy}
-                    className={clsx("rounded-lg px-3 py-1 text-white", {
+                    className={clsx("isolate rounded-lg px-3 py-1 text-white", {
                       "cursor-not-allowed bg-red-700": rowBusy,
                       "cursor-pointer bg-red-600 hover:bg-red-700": !rowBusy,
                     })}
