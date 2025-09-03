@@ -36,6 +36,12 @@ export default function SelectCategory({
             <p className="p-8">Loading…</p>
           ) : (
             <>
+              {/* Category Errors / Loading */}
+              {error && (
+                <div className="rounded-t-xl border border-red-200 bg-red-50 p-3 text-red-700">
+                  {error}
+                </div>
+              )}
               <CategoryList
                 categories={categories}
                 loadTasks={loadTasks}
@@ -51,13 +57,6 @@ export default function SelectCategory({
                 loadCategories={loadCategories}
               />
             </>
-          )}
-
-          {/* Category Errors / Loading */}
-          {error && (
-            <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-red-700">
-              {error}
-            </div>
           )}
         </div>
       )}
