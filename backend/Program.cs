@@ -23,6 +23,11 @@ builder.Services.AddCors(opt =>
 
 var app = builder.Build();
 
+app.MapGet("/", (HttpContext context) =>
+{
+    context.Response.Redirect("/swagger", permanent: true); // permanent: true for 301
+});
+
 // 4) Middleware pipeline
 app.UseSwagger();
 app.UseSwaggerUI();
