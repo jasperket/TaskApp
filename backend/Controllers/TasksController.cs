@@ -57,6 +57,9 @@ namespace TaskApi.Controllers
             var category = await _db.Categories.FindAsync(dto.CategoryId);
             if (category == null) return BadRequest("Category not found.");
 
+            // Validate estimate hours
+            if (dto.EstimateHours < 0) return BadRequest("Estimated hours must be greater than or equal to zero.");
+
             // Create task
             var task = new TaskItem
             {
@@ -87,6 +90,9 @@ namespace TaskApi.Controllers
             // Validate category
             var category = await _db.Categories.FindAsync(dto.CategoryId);
             if (category == null) return BadRequest("Category not found.");
+
+            // Validate estimate hours
+            if (dto.EstimateHours < 0) return BadRequest("Estimated hours must be greater than or equal to zero.");
 
             var task = await _db.Tasks.FindAsync(id);
             if (task == null) return NotFound();
