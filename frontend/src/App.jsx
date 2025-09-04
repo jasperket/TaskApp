@@ -69,11 +69,13 @@ export default function App() {
   return (
     <div className="min-h-screen bg-gray-100 text-gray-900">
       <Header />
-      <ExportButton
-        tasks={filteredTasks}
-        categories={categories}
-        tasksLoading={tasksLoading}
-      />
+      {filteredTasks.length !== 0 && (
+        <ExportButton
+          tasks={filteredTasks}
+          categories={categories}
+          tasksLoading={tasksLoading}
+        />
+      )}
       <main className="mx-auto max-w-3xl space-y-6 p-6">
         <h2 className="text-xl font-bold">Tasks</h2>
         {/* Create Form */}
