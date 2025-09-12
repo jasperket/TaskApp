@@ -28,6 +28,13 @@ app.MapGet("/", (HttpContext context) =>
     context.Response.Redirect("/swagger", permanent: true); // permanent: true for 301
 });
 
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.EnsureCreated(); // or db.Database.Migrate() if using EF migrations
+}
+
+
 // 4) Middleware pipeline
 app.UseSwagger();
 app.UseSwaggerUI();

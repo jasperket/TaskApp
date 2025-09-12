@@ -12,8 +12,7 @@ export default function useEditCategory(setError, loadCategories, loadTasks) {
     setEditName(category.name ?? "");
   }
 
-  function cancelEdit(e) {
-    e.preventDefault();
+  function cancelEdit() {
     setEditId(null);
     setEditName("");
   }

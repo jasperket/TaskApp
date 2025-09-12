@@ -134,7 +134,10 @@ export default function CategoryList({
                     {updating ? "Saving..." : "Save"}
                   </button>
                   <button
-                    onClick={cancelEdit}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      cancelEdit();
+                    }}
                     className={`${updating ? "cursor-not-allowed" : "cursor-pointer"} rounded-lg bg-gray-100 px-3 py-1 text-gray-700 hover:bg-gray-200`}
                     disabled={updating}
                   >
