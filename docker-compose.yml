@@ -20,8 +20,10 @@ services:
 
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
+    secrets:
+      - db-password
     environment:
-      SA_PASSWORD: "Password123!"
+      SA_PASSWORD: /run/secrets/db-password
       ACCEPT_EULA: "Y"
     ports:
       - "1433:1433"
@@ -56,3 +58,7 @@ networks:
 
 volumes:
   sqlvolume:
+
+secrets:
+  db-password:
+    file: db/password.txt
